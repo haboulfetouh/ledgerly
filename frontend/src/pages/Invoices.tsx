@@ -13,7 +13,7 @@ export function Invoices() {
 
   const { data: invoices, isLoading } = useQuery({
     queryKey: ["invoices"],
-    queryFn: api.listInvoices,
+    queryFn: () => api.listInvoices(),
     refetchInterval: 4000, // simple polling until a live extraction status finishes
   });
 

@@ -42,6 +42,17 @@ class Settings(BaseSettings):
     smtp_port: int = 1025
     smtp_from: str = "noreply@ledgerly.local"
 
+    # Comma-separated. Dev origins stay in the default so local dev keeps
+    # working without a .env override; production adds its real origin here.
+    cors_allow_origins: str = (
+        "http://localhost:5173,http://localhost:5174,"
+        "http://localhost:5175,http://127.0.0.1:5175"
+    )
+
+    @property
+    def cors_allow_origins_list(self) -> list[str]:
+        return [o.strip() for o in self.cors_allow_origins.split(",") if o.strip()]
+
     @property
     def keycloak_issuer(self) -> str:
         return f"{self.keycloak_public_url}/realms/{self.keycloak_realm}"
